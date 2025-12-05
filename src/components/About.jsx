@@ -3,13 +3,6 @@
 import React from 'react';
 import {
   FiCode,
-  FiLayout,
-  FiMonitor,
-  FiTool,
-  FiDatabase,
-  FiCloud,
-  FiTrendingUp,
-  FiAward
 } from 'react-icons/fi';
 
 import {
