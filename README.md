@@ -39,7 +39,7 @@ This is my personal portfolio website where I showcase my:
 
 ## 📸 Preview
 
-![My Portfolio](./images/me.png)
+![My Portfolio](./images/Me.png)
 
 ---
 
