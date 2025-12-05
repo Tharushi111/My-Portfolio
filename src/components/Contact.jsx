@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import emailjs from '@emailjs/browser';
 import { FiMail, FiPhone, FiMapPin, FiSend, FiCheckCircle, FiAlertCircle, FiX } from 'react-icons/fi';
 
 const Contact = () => {
@@ -25,74 +24,57 @@ const Contact = () => {
   };
 
   const showToast = (type, title, message) => {
-    setToast({
-      show: true,
-      type,
-      title,
-      message
-    });
-    
-    // Auto hide after 5 seconds
+    setToast({ show: true, type, title, message });
+
     setTimeout(() => {
-      setToast({
-        ...toast,
-        show: false
-      });
+      setToast({ ...toast, show: false });
     }, 5000);
+  };
+
+  const encode = (data) => {
+    return Object.keys(data)
+      .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+      .join('&');
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    const templateParams = {
-      name: formData.name,
-      email: formData.email,
-      subject: formData.subject,
-      message: formData.message
-    };
-
-    emailjs.send(
-      process.env.REACT_APP_EMAILJS_SERVICE_ID,
-      process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
-      templateParams,
-      process.env.REACT_APP_EMAILJS_PUBLIC_KEY
-    )
-    .then(() => {
-      showToast(
-        'success',
-        'Message Sent Successfully!',
-        'Your message has been delivered. I\'ll get back to you within 24 hours.'
-      );
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
+    // Netlify form submission
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: encode({ 'form-name': 'contact', ...formData })
     })
-    .catch((error) => {
-      console.error('EmailJS Error:', error);
-      showToast(
-        'error',
-        'Message Failed to Send',
-        'There was an error sending your message. Please try again or email me directly.'
-      );
-    })
-    .finally(() => {
-      setIsLoading(false);
-    });
+      .then(() => {
+        showToast(
+          'success',
+          'Message Sent Successfully!',
+          "Your message has been delivered. I'll get back to you within 24 hours."
+        );
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      })
+      .catch((error) => {
+        console.error('Form Submission Error:', error);
+        showToast(
+          'error',
+          'Message Failed to Send',
+          'There was an error sending your message. Please try again or email me directly.'
+        );
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
     <section id="contact" className="py-20 bg-gray-800 relative overflow-hidden">
-      {/* Modern Toast Notification - Top Center */}
+      {/* Toast Notification */}
       {toast.show && (
         <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-md px-4">
-          <div 
+          <div
             className={`rounded-xl shadow-2xl border-l-4 overflow-hidden animate-slideDown ${
-              toast.type === 'success' 
-                ? 'bg-gradient-to-r from-emerald-50 to-green-50 border-emerald-500' 
+              toast.type === 'success'
+                ? 'bg-gradient-to-r from-emerald-50 to-green-50 border-emerald-500'
                 : 'bg-gradient-to-r from-red-50 to-orange-50 border-red-500'
             }`}
           >
@@ -108,33 +90,39 @@ const Contact = () => {
                   </div>
                 )}
               </div>
-              
+
               <div className="ml-3 flex-1">
                 <div className="flex justify-between items-start">
-                  <h3 className={`text-sm font-semibold ${
-                    toast.type === 'success' ? 'text-emerald-800' : 'text-red-800'
-                  }`}>
+                  <h3
+                    className={`text-sm font-semibold ${
+                      toast.type === 'success' ? 'text-emerald-800' : 'text-red-800'
+                    }`}
+                  >
                     {toast.title}
                   </h3>
                   <button
-                    onClick={() => setToast({...toast, show: false})}
+                    onClick={() => setToast({ ...toast, show: false })}
                     className="ml-2 text-gray-400 hover:text-gray-600"
                   >
                     <FiX className="w-4 h-4" />
                   </button>
                 </div>
-                <p className={`mt-1 text-sm ${
-                  toast.type === 'success' ? 'text-emerald-600' : 'text-red-600'
-                }`}>
+                <p
+                  className={`mt-1 text-sm ${
+                    toast.type === 'success' ? 'text-emerald-600' : 'text-red-600'
+                  }`}
+                >
                   {toast.message}
                 </p>
-                
+
                 {/* Progress bar */}
                 <div className="mt-2">
-                  <div className={`h-1 w-full ${
-                    toast.type === 'success' ? 'bg-emerald-100' : 'bg-red-100'
-                  } rounded-full overflow-hidden`}>
-                    <div 
+                  <div
+                    className={`h-1 w-full ${
+                      toast.type === 'success' ? 'bg-emerald-100' : 'bg-red-100'
+                    } rounded-full overflow-hidden`}
+                  >
+                    <div
                       className={`h-full ${
                         toast.type === 'success' ? 'bg-emerald-500' : 'bg-red-500'
                       } animate-progress`}
@@ -149,15 +137,16 @@ const Contact = () => {
 
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 25% 25%, #10b981 2px, transparent 2px)`,
-          backgroundSize: '40px 40px'
-        }}></div>
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(circle at 25% 25%, #10b981 2px, transparent 2px)`,
+            backgroundSize: '40px 40px'
+          }}
+        ></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-
-        {/* Title with Animation */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center justify-center p-3 bg-emerald-500/10 rounded-full mb-6">
             <FiMail className="w-8 h-8 text-emerald-400" />
@@ -174,20 +163,18 @@ const Contact = () => {
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">
-
-          {/* Left Side - Info */}
+          {/* Left Info */}
           <div className="space-y-8">
             <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-emerald-500/20 hover:border-emerald-500/40 transition-all duration-300 hover:shadow-2xl hover:shadow-emerald-500/10">
               <h3 className="text-2xl font-bold text-white mb-6">
                 Let's build the future together! 🚀
               </h3>
               <p className="text-gray-300 mb-8 leading-relaxed">
-                Whether you have a groundbreaking project idea, need technical expertise, 
+                Whether you have a groundbreaking project idea, need technical expertise,
                 or just want to connect over tech - I'm always excited to explore new possibilities.
               </p>
 
               <div className="space-y-6">
-
                 {/* Email */}
                 <div className="flex items-center gap-4 group cursor-pointer">
                   <div className="p-4 bg-emerald-500/10 rounded-xl group-hover:bg-emerald-500/20 transition-all duration-300 group-hover:scale-110">
@@ -195,7 +182,7 @@ const Contact = () => {
                   </div>
                   <div className="flex-1">
                     <h4 className="text-white font-semibold mb-1">Email</h4>
-                    <a 
+                    <a
                       href="mailto:tharushiparanagama1@gmail.com"
                       className="text-gray-400 hover:text-emerald-400 transition-colors duration-300"
                     >
@@ -211,7 +198,7 @@ const Contact = () => {
                   </div>
                   <div className="flex-1">
                     <h4 className="text-white font-semibold mb-1">Phone</h4>
-                    <a 
+                    <a
                       href="tel:+94743572773"
                       className="text-gray-400 hover:text-emerald-400 transition-colors duration-300"
                     >
@@ -230,64 +217,25 @@ const Contact = () => {
                     <p className="text-gray-400">Malabe, Sri Lanka</p>
                   </div>
                 </div>
-
-              </div>
-            </div>
-
-            {/* Social links */}
-            <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-emerald-500/20">
-              <h4 className="text-white font-semibold mb-6 text-xl">Connect with me</h4>
-              <div className="grid grid-cols-3 gap-4">
-                <a
-                  href="https://github.com/Tharushi111"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative bg-gray-800 hover:bg-gradient-to-br hover:from-emerald-500 hover:to-green-600 p-4 rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl hover:shadow-emerald-500/20 text-center"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg"></div>
-                  <div className="relative z-10">
-                    <div className="text-white text-lg font-semibold">GitHub</div>
-                    <div className="text-emerald-400 text-sm mt-1">@Tharushi111</div>
-                  </div>
-                </a>
-
-                <a
-                  href="https://www.linkedin.com/in/tharushi-paranagama-a0b657355"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative bg-gray-800 hover:bg-gradient-to-br hover:from-blue-500 hover:to-blue-600 p-4 rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-500/20 text-center"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg"></div>
-                  <div className="relative z-10">
-                    <div className="text-white text-lg font-semibold">LinkedIn</div>
-                    <div className="text-blue-400 text-sm mt-1">Tharushi Paranagama</div>
-                  </div>
-                </a>
-
-                <a
-                  href="https://twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group relative bg-gray-800 hover:bg-gradient-to-br hover:from-sky-500 hover:to-sky-600 p-4 rounded-xl transition-all duration-300 transform hover:-translate-y-1 hover:shadow-xl hover:shadow-sky-500/20 text-center"
-                >
-                  <div className="absolute inset-0 bg-gradient-to-br from-sky-500 to-sky-600 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-lg"></div>
-                  <div className="relative z-10">
-                    <div className="text-white text-lg font-semibold">Twitter</div>
-                    <div className="text-sky-400 text-sm mt-1">Coming Soon</div>
-                  </div>
-                </a>
               </div>
             </div>
           </div>
 
-          {/* Right Side - Form */}
+          {/* Right Form */}
           <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-2xl border border-emerald-500/20 shadow-2xl shadow-emerald-500/5 hover:shadow-emerald-500/10 transition-all duration-300">
             <div className="mb-8">
               <h3 className="text-2xl font-bold text-white mb-2">Send me a message 💌</h3>
               <p className="text-gray-400">I typically respond within 24 hours</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form
+              name="contact"
+              method="POST"
+              data-netlify="true"
+              onSubmit={handleSubmit}
+              className="space-y-6"
+            >
+              <input type="hidden" name="form-name" value="contact" />
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="group">
@@ -298,7 +246,7 @@ const Contact = () => {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300 group-hover:border-emerald-500/50"
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300"
                     placeholder="John Doe"
                   />
                 </div>
@@ -311,7 +259,7 @@ const Contact = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300 group-hover:border-emerald-500/50"
+                    className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300"
                     placeholder="john@example.com"
                   />
                 </div>
@@ -325,7 +273,7 @@ const Contact = () => {
                   value={formData.subject}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300 group-hover:border-emerald-500/50"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300"
                   placeholder="Let's work together!"
                 />
               </div>
@@ -338,7 +286,7 @@ const Contact = () => {
                   onChange={handleChange}
                   required
                   rows="6"
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300 resize-none group-hover:border-emerald-500/50"
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 transition-all duration-300 resize-none"
                   placeholder="Hello! I'd like to discuss a potential project with you..."
                 ></textarea>
               </div>
@@ -366,14 +314,12 @@ const Contact = () => {
               <p className="text-center text-gray-400 text-sm mt-4">
                 Your information is secure and will never be shared
               </p>
-
             </form>
           </div>
-
         </div>
       </div>
 
-      {/* Add these CSS animations to your global CSS or style tag */}
+      {/* Add these CSS animations */}
       <style jsx>{`
         @keyframes slideDown {
           from {
@@ -385,7 +331,7 @@ const Contact = () => {
             opacity: 1;
           }
         }
-        
+
         @keyframes progress {
           from {
             width: 100%;
@@ -394,11 +340,11 @@ const Contact = () => {
             width: 0%;
           }
         }
-        
+
         .animate-slideDown {
           animation: slideDown 0.3s ease-out forwards;
         }
-        
+
         .animate-progress {
           animation: progress 5s linear forwards;
         }
