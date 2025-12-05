@@ -3,6 +3,7 @@
 import React from 'react';
 import {
   FiCode,
+  FiTrendingUp ,
 } from 'react-icons/fi';
 
 import {
