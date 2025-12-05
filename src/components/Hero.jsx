@@ -1,7 +1,7 @@
 // src/components/Hero.jsx
 import React from 'react';
 import myPhoto from '../assets/myPhoto.jpeg';
-import { FiDownload, FiGithub, FiLinkedin, FiMail, FiClock, FiCode } from 'react-icons/fi';
+import {FiGithub, FiLinkedin, FiMail, FiClock } from 'react-icons/fi';
 
 const Hero = () => {
   return (

@@ -6,7 +6,6 @@ import {
   FiStar, 
   FiCode,
   FiSmartphone,
-  FiServer,
   FiGlobe
 } from 'react-icons/fi';
 import { motion } from 'framer-motion';
