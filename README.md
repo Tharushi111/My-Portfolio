@@ -31,20 +31,15 @@ This is my personal portfolio website where I showcase my:
 
 | Category        | Tools                 |
 | --------------- | --------------------- |
-| Frontend        | React.js, HTML5, CSS3 |
-| Design          | Figma                 |
-| Hosting         | Vercel / Netlify      |
+| Frontend        | React.js, Tailwind CSS |
+| Hosting         | Netlify      |
 | Version Control | Git & GitHub          |
 
 ---
 
 ## 📸 Preview
 
-<p align="center">
-  <img src="https://via.placeholder.com/800x450.png?text=Your+Portfolio+Preview" alt="Portfolio Screenshot"/>
-</p>
-
-> 📌 **Tip:** Replace the image link with your actual portfolio screenshot later.
+![My Portfolio](./images/me.png)
 
 ---
 
