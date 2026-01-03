@@ -6,10 +6,9 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: FiGithub, href: 'https://github.com', label: 'GitHub' },
-    { icon: FiLinkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: FiTwitter, href: 'https://twitter.com', label: 'Twitter' },
-    { icon: FiMail, href: 'mailto:tharushi@example.com', label: 'Email' },
+    { icon: FiGithub, href: 'https://github.com/Tharushi111', label: 'GitHub' },
+    { icon: FiLinkedin, href: 'https://www.linkedin.com/in/tharushi-paranagama-a0b657355', label: 'LinkedIn' },
+    { icon: FiMail, href: 'mailto:tharushiparanagama1@gmail.com', label: 'Email' },
   ];
 
   const quickLinks = [
