@@ -69,8 +69,8 @@ const Footer = () => {
             <h3 className="text-lg font-semibold text-white mb-6">Get In Touch</h3>
             <div className="space-y-3 text-gray-400">
               <p>Malabe, Sri Lanka</p>
-              <p>tharushi@example.com</p>
-              <p>+94 77 123 4567</p>
+              <p>tharushiparanagama1@gmail.com</p>
+              <p>+94 74 357 2773</p>
             </div>
           </div>
         </div>
