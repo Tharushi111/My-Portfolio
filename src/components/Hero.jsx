@@ -14,7 +14,7 @@ import {
 const Hero = () => {
   const [ref, inView] = useInView({
     threshold: 0.2,
-    triggerOnce: false // Changed to false to retrigger on scroll back
+    triggerOnce: false 
   });
   
   const controls = useAnimation();

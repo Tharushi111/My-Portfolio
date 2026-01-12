@@ -116,7 +116,7 @@ const Navbar = () => {
               className="group relative"
             >
               <span className="text-2xl font-bold bg-gradient-to-r from-emerald-400 via-cyan-400 to-green-500 bg-clip-text text-transparent">
-                Tharushi
+                Tharushi Paranagama
               </span>
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-cyan-400 group-hover:w-full transition-all duration-300"></span>
             </button>

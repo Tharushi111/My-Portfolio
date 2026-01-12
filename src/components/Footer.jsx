@@ -47,7 +47,7 @@ const Footer = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Tharushi Paranagama<span className="text-white">.</span>
+              Tharushi Paranagama<span className="text-white"></span>
             </motion.a>
             <p className="text-gray-400 leading-relaxed max-w-xs">
               IT Undergraduate passionate about creating innovative web solutions and digital experiences that make a difference.
