@@ -77,7 +77,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm mb-4 md:mb-0 flex items-center gap-1">
-            © {currentYear} Tharushi Paranagama. Made with <FiHeart className="text-red-500" /> using React & Tailwind CSS
+            © {currentYear} Tharushi Paranagama.All rights reserved. Made by<FiHeart className="text-red-500" /> Tharushi Paranagama
           </p>
         </div>
       </div>
