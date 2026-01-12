@@ -1,5 +1,5 @@
 <h1 align="center">Hi 👋, I'm Tharushi Paranagama</h1>
-<h3 align="center">Information Technology Undergraduate | Front-End Developer | UI/UX Enthusiast</h3>
+<h3 align="center">Information Technology Undergraduate | Fullstack Developer | UI/UX Enthusiast</h3>
 
 ---
 
