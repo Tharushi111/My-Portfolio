@@ -1,4 +1,3 @@
-// src/components/Projects.jsx
 import React, { useState } from 'react';
 import { 
   FiGithub, 
@@ -6,7 +5,8 @@ import {
   FiStar, 
   FiCode,
   FiSmartphone,
-  FiGlobe
+  FiGlobe,
+  FiBriefcase
 } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import rebuyImg from '../assets/rebuy.png';
@@ -14,11 +14,24 @@ import WellnessBuddyImg from '../assets/wellness.png';
 import ToDoApp from '../assets/ToDoApp.png';
 import dashboard from '../assets/admindashboard.png';
 import petbuddy from '../assets/petbuddy.png';
+import financialAdvisor from '../assets/Finance-Advisor.png'; 
 
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('all');
 
   const projects = [
+    {
+      title: 'Financial Advisor Portfolio',
+      subtitle: 'Client-based Project',
+      description: 'A professional portfolio website for a financial advisor showcasing services, expertise, and client testimonials with secure contact.',
+      image: financialAdvisor,
+      technologies: ['React', 'Tailwind CSS', 'Framer Motion'],
+      githubLink: 'https://github.com/Tharushi111/Financial-Advisor-Portfolio', 
+      liveLink: 'https://rakindu-rajapaksha.netlify.app', 
+      featured: true,
+      type: 'web',
+      status: 'Completed'
+    },
     {
       title: 'ReBuy.lk',
       subtitle: 'E-Commerce Platform',
@@ -53,7 +66,7 @@ const Projects = () => {
       liveLink: null,
       featured: true,
       type: 'mobile',
-      status: 'In Progress'
+      status: 'Completed' // Changed from 'In Progress'
     },
     {
       title: 'TodoMaster',
@@ -85,17 +98,24 @@ const Projects = () => {
     { id: 'all', label: 'All Projects', icon: FiCode },
     { id: 'web', label: 'Web Apps', icon: FiGlobe },
     { id: 'mobile', label: 'Mobile Apps', icon: FiSmartphone },
-    { id: 'featured', label: 'Featured', icon: FiStar }
+    { id: 'featured', label: 'Featured', icon: FiStar },
+    { id: 'client', label: 'Client Work', icon: FiBriefcase }
   ];
 
   const filteredProjects = projects.filter(project => {
     if (activeFilter === 'all') return true;
     if (activeFilter === 'featured') return project.featured;
+    if (activeFilter === 'client') return project.title === 'Financial Advisor Portfolio';
     return project.type === activeFilter;
   });
 
   const getTypeIcon = (type) => {
     return type === 'web' ? <FiGlobe className="w-4 h-4" /> : <FiSmartphone className="w-4 h-4" />;
+  };
+
+  const getProjectType = (project) => {
+    if (project.title === 'Financial Advisor Portfolio') return 'Client Project';
+    return project.type === 'web' ? 'Web App' : 'Mobile App';
   };
 
   const containerVariants = {
@@ -145,7 +165,7 @@ const Projects = () => {
         {/* Filter Buttons */}
         <div className="flex flex-wrap justify-center gap-4 mb-12">
           {filters.map((filter) => (
-            <button
+            <motion.button
               key={filter.id}
               onClick={() => setActiveFilter(filter.id)}
               className={`flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 ${
@@ -153,10 +173,12 @@ const Projects = () => {
                   ? 'bg-gradient-to-r from-emerald-500 to-cyan-500 text-white shadow-lg shadow-emerald-500/30'
                   : 'bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 hover:text-white border border-gray-700'
               }`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               <filter.icon className="w-5 h-5" />
               <span className="font-medium">{filter.label}</span>
-            </button>
+            </motion.button>
           ))}
         </div>
 
@@ -173,10 +195,12 @@ const Projects = () => {
               variants={itemVariants}
               whileHover={{ y: -8 }}
               className={`group relative ${
-                project.featured && activeFilter !== 'mobile' ? 'md:col-span-2 lg:col-span-2' : ''
+                project.featured && activeFilter !== 'mobile' && activeFilter !== 'client' ? 'md:col-span-2 lg:col-span-2' : ''
               }`}
             >
-              <div className="relative h-full bg-gradient-to-br from-gray-900/80 to-gray-800/80 backdrop-blur-sm rounded-3xl overflow-hidden border border-gray-700 hover:border-emerald-500/50 transition-all duration-500 shadow-2xl shadow-black/20">
+              <div className={`relative h-full bg-gradient-to-br from-gray-900/80 to-gray-800/80 backdrop-blur-sm rounded-3xl overflow-hidden border border-gray-700 hover:border-emerald-500/50 transition-all duration-500 shadow-2xl shadow-black/20 ${
+                project.title === 'Financial Advisor Portfolio' ? 'border-amber-500/30 hover:border-amber-500/50' : ''
+              }`}>
                 {/* Status Badge */}
                 <div className="absolute top-4 left-4 z-20">
                   <div className={`px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-2 ${
@@ -185,7 +209,7 @@ const Projects = () => {
                       : 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
                   }`}>
                     <div className={`w-2 h-2 rounded-full ${
-                      project.status === 'Completed' ? 'bg-emerald-400' : 'bg-amber-400'
+                      project.status === 'Completed' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'
                     }`}></div>
                     {project.status}
                   </div>
@@ -193,9 +217,17 @@ const Projects = () => {
 
                 {/* Type Badge */}
                 <div className="absolute top-4 right-4 z-20">
-                  <div className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-900/80 backdrop-blur-sm rounded-full text-xs font-medium text-gray-300 border border-gray-600">
-                    {getTypeIcon(project.type)}
-                    <span>{project.type === 'web' ? 'Web App' : 'Mobile App'}</span>
+                  <div className={`flex items-center gap-1.5 px-3 py-1.5 bg-gray-900/80 backdrop-blur-sm rounded-full text-xs font-medium border ${
+                    project.title === 'Financial Advisor Portfolio' 
+                      ? 'text-amber-400 border-amber-500/50 bg-amber-500/10'
+                      : 'text-gray-300 border-gray-600'
+                  }`}>
+                    {project.title === 'Financial Advisor Portfolio' ? (
+                      <FiBriefcase className="w-4 h-4" />
+                    ) : (
+                      getTypeIcon(project.type)
+                    )}
+                    <span>{getProjectType(project)}</span>
                   </div>
                 </div>
 
@@ -220,16 +252,18 @@ const Projects = () => {
                   
                   {/* Hover Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 flex items-center justify-center gap-6">
-                    <a
-                      href={project.githubLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="transform -translate-y-4 group-hover:translate-y-0 transition-transform duration-500 opacity-0 group-hover:opacity-100"
-                    >
-                      <div className="p-4 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full text-white shadow-2xl shadow-emerald-500/50 hover:scale-110 transition-transform duration-300">
-                        <FiGithub size={24} />
-                      </div>
-                    </a>
+                    {project.githubLink && (
+                      <a
+                        href={project.githubLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="transform -translate-y-4 group-hover:translate-y-0 transition-transform duration-500 opacity-0 group-hover:opacity-100"
+                      >
+                        <div className="p-4 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-full text-white shadow-2xl shadow-emerald-500/50 hover:scale-110 transition-transform duration-300">
+                          <FiGithub size={24} />
+                        </div>
+                      </a>
+                    )}
                     {project.liveLink && (
                       <a
                         href={project.liveLink}
@@ -241,6 +275,13 @@ const Projects = () => {
                           <FiExternalLink size={24} />
                         </div>
                       </a>
+                    )}
+                    {project.title === 'Financial Advisor Portfolio' && (
+                      <div className="transform -translate-y-4 group-hover:translate-y-0 transition-transform duration-500 opacity-0 group-hover:opacity-100">
+                        <div className="p-4 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full text-white shadow-2xl shadow-amber-500/50">
+                          <FiBriefcase size={24} />
+                        </div>
+                      </div>
                     )}
                   </div>
                 </div>
@@ -275,17 +316,26 @@ const Projects = () => {
                   {/* Links */}
                   <div className="flex items-center justify-between pt-6 border-t border-gray-700">
                     <div className="flex items-center gap-4">
-                      <a
-                        href={project.githubLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-gray-400 hover:text-emerald-400 transition-colors group/link"
-                      >
-                        <div className="p-2 bg-gray-800 rounded-lg group-hover/link:bg-emerald-500/20 transition-colors">
-                          <FiGithub size={18} />
+                      {project.githubLink ? (
+                        <a
+                          href={project.githubLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-gray-400 hover:text-emerald-400 transition-colors group/link"
+                        >
+                          <div className="p-2 bg-gray-800 rounded-lg group-hover/link:bg-emerald-500/20 transition-colors">
+                            <FiGithub size={18} />
+                          </div>
+                          <span className="text-sm font-medium">View Code</span>
+                        </a>
+                      ) : project.title === 'Financial Advisor Portfolio' ? (
+                        <div className="flex items-center gap-2 text-amber-400">
+                          <div className="p-2 bg-amber-500/20 rounded-lg">
+                            <FiBriefcase size={18} />
+                          </div>
+                          <span className="text-sm font-medium">Client Project</span>
                         </div>
-                        <span className="text-sm font-medium">View Code</span>
-                      </a>
+                      ) : null}
                       {project.liveLink && (
                         <a
                           href={project.liveLink}
@@ -307,7 +357,11 @@ const Projects = () => {
                 </div>
 
                 {/* Gradient Border Effect */}
-                <div className="absolute inset-0 rounded-3xl border-2 border-transparent bg-gradient-to-r from-emerald-500/0 via-cyan-500/0 to-purple-500/0 group-hover:from-emerald-500/10 group-hover:via-cyan-500/10 group-hover:to-purple-500/10 transition-all duration-700 pointer-events-none"></div>
+                <div className={`absolute inset-0 rounded-3xl border-2 border-transparent pointer-events-none ${
+                  project.title === 'Financial Advisor Portfolio' 
+                    ? 'bg-gradient-to-r from-amber-500/0 via-orange-500/0 to-amber-500/0 group-hover:from-amber-500/10 group-hover:via-orange-500/10 group-hover:to-amber-500/10'
+                    : 'bg-gradient-to-r from-emerald-500/0 via-cyan-500/0 to-purple-500/0 group-hover:from-emerald-500/10 group-hover:via-cyan-500/10 group-hover:to-purple-500/10'
+                } transition-all duration-700`}></div>
               </div>
             </motion.div>
           ))}

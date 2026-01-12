@@ -8,34 +8,60 @@ import {
   FiLinkedin, 
   FiMail, 
   FiDownload, 
-  FiChevronRight,
-  FiCalendar,
-  FiBook,
-  FiMapPin
+  FiChevronRight
 } from 'react-icons/fi';
-import { 
-  FaGraduationCap,
-  FaLaptopCode,
-  FaCode,
-  FaReact,
-  FaNodeJs,
-  FaDatabase
-} from 'react-icons/fa';
 
 const Hero = () => {
   const [ref, inView] = useInView({
     threshold: 0.2,
-    triggerOnce: false
+    triggerOnce: false // Changed to false to retrigger on scroll back
   });
   
   const controls = useAnimation();
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const [displayedTitle, setDisplayedTitle] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [showCursor, setShowCursor] = useState(true);
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const fullTitle = "3rd Year IT Undergraduate";
 
   useEffect(() => {
     if (inView) {
       controls.start('visible');
+      // Reset typing animation when entering view
+      if (!isTypingComplete) {
+        setCurrentIndex(0);
+        setDisplayedTitle('');
+        setIsTypingComplete(false);
+      }
+    } else {
+      controls.start('hidden');
+      // Reset typing state when leaving view
+      setIsTypingComplete(false);
     }
-  }, [controls, inView]);
+  }, [controls, inView, isTypingComplete]);
+
+  // Typing animation effect
+  useEffect(() => {
+    if (inView && currentIndex < fullTitle.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedTitle(prev => prev + fullTitle[currentIndex]);
+        setCurrentIndex(prev => prev + 1);
+      }, 100);
+      return () => clearTimeout(timeout);
+    } else if (currentIndex >= fullTitle.length) {
+      setIsTypingComplete(true);
+    }
+  }, [currentIndex, inView]);
+
+  // Cursor blink effect - only when typing is complete
+  useEffect(() => {
+    if (isTypingComplete) {
+      const cursorInterval = setInterval(() => {
+        setShowCursor(prev => !prev);
+      }, 500);
+      return () => clearInterval(cursorInterval);
+    }
+  }, [isTypingComplete]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -84,28 +110,6 @@ const Hero = () => {
     }
   };
 
-  const floatAnimation = {
-    float: {
-      y: [0, -20, 0],
-      transition: {
-        duration: 4,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }
-    }
-  };
-
-  const rotateAnimation = {
-    rotate: {
-      rotate: 360,
-      transition: {
-        duration: 20,
-        repeat: Infinity,
-        ease: "linear"
-      }
-    }
-  };
-
   const socialIconVariants = {
     hidden: { scale: 0, opacity: 0 },
     visible: (i) => ({
@@ -129,22 +133,13 @@ const Hero = () => {
     }
   };
 
-  const techIconVariants = {
-    hover: {
-      scale: 1.2,
-      rotate: 360,
-      transition: {
-        duration: 0.6
-      }
-    }
-  };
-
   return (
     <motion.section
       id="home"
       className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-emerald-950 overflow-hidden pt-16"
       initial="hidden"
-      animate="visible"
+      animate={controls}
+      variants={containerVariants}
       ref={ref}
     >
       {/* Animated Background Particles */}
@@ -198,14 +193,12 @@ const Hero = () => {
 
       {/* Main Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-8">
-        <div className="grid lg:grid-cols-12 gap-12 items-center">
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-6 items-center">
           
           {/* Text Content - Left Side */}
           <motion.div 
             className="lg:col-span-7"
             variants={containerVariants}
-            initial="hidden"
-            animate={controls}
           >
             {/* Introduction */}
             <motion.div 
@@ -215,8 +208,10 @@ const Hero = () => {
               <div className="inline-flex items-center gap-2 mb-4">
                 <motion.div 
                   className="h-1 w-8 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full"
-                  initial={{ width: 0 }}
-                  animate={{ width: 32 }}
+                  variants={{
+                    hidden: { width: 0 },
+                    visible: { width: 32 }
+                  }}
                   transition={{ duration: 0.8, delay: 0.2 }}
                 />
                 <motion.span 
@@ -236,8 +231,10 @@ const Hero = () => {
                 </span>
                 <motion.span 
                   className="block text-4xl md:text-5xl lg:text-6xl text-gray-300 mt-2"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: { opacity: 1, y: 0 }
+                  }}
                   transition={{ delay: 0.4 }}
                 >
                   Paranagama
@@ -245,17 +242,23 @@ const Hero = () => {
               </motion.h1>
             </motion.div>
 
-            {/* Title */}
+            {/* Title with Typing Animation */}
             <motion.div 
               className="mb-8"
               variants={itemVariants}
             >
-              <motion.h2 
-                className="text-2xl md:text-3xl text-emerald-400 font-semibold mb-3"
-                variants={itemVariants}
+              <motion.div 
+                className="text-2xl md:text-3xl text-emerald-400 font-semibold mb-3 min-h-[2.5rem] flex items-center"
               >
-                3rd Year IT Undergraduate
-              </motion.h2>
+                <span className="font-mono">
+                  {displayedTitle}
+                  <motion.span
+                    className="inline-block ml-1 w-[3px] h-8 bg-emerald-400"
+                    animate={{ opacity: showCursor && isTypingComplete ? 1 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                </span>
+              </motion.div>
               <motion.p 
                 className="text-lg md:text-xl text-gray-300 max-w-2xl leading-relaxed"
                 variants={itemVariants}
@@ -367,63 +370,25 @@ const Hero = () => {
           <motion.div 
             className="lg:col-span-5"
             variants={slideInRight}
-            initial="hidden"
-            animate={controls}
           >
-            <div className="relative h-[500px] flex items-center justify-center">
-              {/* Floating background elements */}
+            <div className="flex justify-center lg:justify-end">
+              {/* Larger Image Container */}
               <motion.div
-                className="absolute w-[420px] h-[420px]"
-                variants={floatAnimation}
-                animate="float"
+                className="relative w-[360px] h-[460px] md:w-[400px] md:h-[500px] lg:w-[420px] lg:h-[520px] rounded-xl overflow-hidden"
+                variants={{
+                  hidden: { opacity: 0, scale: 0.9 },
+                  visible: { opacity: 1, scale: 1 }
+                }}
+                transition={{ duration: 0.6, delay: 0.3 }}
               >
-                <motion.div
-                  className="absolute bottom-10 right-10 w-4 h-4 bg-gradient-to-r from-cyan-500/30 to-emerald-500/30 rounded-full blur-sm"
-                  animate={{
-                    y: [0, 20, 0],
-                    x: [0, -10, 0],
-                  }}
-                  transition={{
-                    duration: 3.5,
-                    repeat: Infinity,
-                    delay: 0.5
-                  }}
+                <img 
+                  src={myPhoto} 
+                  alt="Tharushi Paranagama" 
+                  className="w-full h-full object-cover object-center"
                 />
-              </motion.div>
-
-              {/* Main Image Container */}
-              <motion.div
-                className="relative w-[380px] h-[380px]"
-                variants={floatAnimation}
-                animate="float"
-                transition={{ duration: 3 }}
-              >
-                {/* Image */}
-                <motion.div
-                  className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-emerald-500/30 shadow-2xl shadow-emerald-500/20"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0.5 }}
-                  onAnimationComplete={() => setImageLoaded(true)}
-                >
-                  <img 
-                    src={myPhoto} 
-                    alt="Tharushi Paranagama" 
-                    className="w-full h-full object-cover"
-                  />
-                  
-                 
-                </motion.div>
-
                 
-                
-                <motion.div
-                  className="absolute -bottom-3 -left-3 w-8 h-8"
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                >
-                  <div className="w-full h-full border-b-2 border-l-2 border-cyan-400 rounded-bl-xl"></div>
-                </motion.div>
+                {/* Subtle gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/20 to-transparent"></div>
               </motion.div>
             </div>
           </motion.div>
