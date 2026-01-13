@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { FiMenu, FiX, FiDownload } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
+import myCV from '../assets/Tharushi_CV.pdf';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -198,7 +199,7 @@ const Navbar = () => {
             
             {/* Download CV Button */}
             <motion.a
-              href="/assets/Tharushi_CV.pdf"
+              href={myCV}
               download="Tharushi_CV.pdf"
               className="ml-2 lg:ml-4 px-4 py-1.5 lg:px-6 lg:py-2 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-lg font-medium shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/40 transition-all duration-300 flex items-center gap-2"
               whileHover={{ scale: 1.05, y: -2 }}
