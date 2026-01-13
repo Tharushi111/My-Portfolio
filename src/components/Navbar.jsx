@@ -6,6 +6,7 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [isMobile, setIsMobile] = useState(false);
 
   const navItems = useMemo(() => [
     { name: 'Home', id: 'home' },
@@ -14,6 +15,17 @@ const Navbar = () => {
     { name: 'Education', id: 'education' },
     { name: 'Contact', id: 'contact' },
   ], []);
+
+  // Check for mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   // Handle scroll effect
   useEffect(() => {
@@ -47,6 +59,15 @@ const Navbar = () => {
       setIsOpen(false);
     }
   };
+
+  // Close menu on escape key
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') setIsOpen(false);
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, []);
 
   const navbarVariants = {
     hidden: { y: -100 },
@@ -91,6 +112,22 @@ const Navbar = () => {
     }
   };
 
+  const getActiveIndicatorPosition = () => {
+    const index = navItems.findIndex(item => item.id === activeSection);
+    if (isMobile) {
+      return { x: 0, width: 0 }; // Hide on mobile
+    }
+    // Adjust for different screen sizes
+    if (window.innerWidth >= 1024) {
+      // Desktop
+      return { x: index * 112 + 16, width: 64 };
+    } else if (window.innerWidth >= 768) {
+      // Tablet
+      return { x: index * 88 + 12, width: 56 };
+    }
+    return { x: index * 96 + 16, width: 64 };
+  };
+
   return (
     <motion.nav
       initial="hidden"
@@ -98,8 +135,8 @@ const Navbar = () => {
       variants={navbarVariants}
       className={`fixed top-0 w-full z-50 transition-all duration-300 ${
         scrolled 
-          ? 'bg-gray-900/90 backdrop-blur-xl shadow-2xl shadow-emerald-500/10 py-2' 
-          : 'bg-transparent py-4'
+          ? 'bg-gray-900/95 backdrop-blur-xl shadow-2xl shadow-emerald-500/10 py-2' 
+          : 'bg-transparent py-3 sm:py-4'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -115,15 +152,15 @@ const Navbar = () => {
               onClick={() => handleNavClick('home')}
               className="group relative"
             >
-              <span className="text-2xl font-bold bg-gradient-to-r from-emerald-400 via-cyan-400 to-green-500 bg-clip-text text-transparent">
-                Tharushi Paranagama
+              <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-emerald-400 via-cyan-400 to-green-500 bg-clip-text text-transparent">
+                Tharushi<span className="hidden sm:inline"> Paranagama</span>
               </span>
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-emerald-400 to-cyan-400 group-hover:w-full transition-all duration-300"></span>
             </button>
           </motion.div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-0 lg:space-x-1">
             {navItems.map((item, index) => (
               <motion.button
                 key={item.id}
@@ -132,7 +169,7 @@ const Navbar = () => {
                 initial="hidden"
                 animate="visible"
                 onClick={() => handleNavClick(item.id)}
-                className={`relative px-4 py-2 rounded-lg transition-all duration-300 group ${
+                className={`relative px-3 py-1.5 lg:px-4 lg:py-2 rounded-lg transition-all duration-300 group ${
                   activeSection === item.id 
                     ? 'text-emerald-300' 
                     : 'text-gray-300 hover:text-emerald-400'
@@ -140,7 +177,7 @@ const Navbar = () => {
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span className="relative z-10 font-medium">
+                <span className="relative z-10 font-medium text-sm lg:text-base">
                   {item.name}
                 </span>
                 
@@ -163,24 +200,37 @@ const Navbar = () => {
             <motion.a
               href="/assets/Tharushi_CV.pdf"
               download="Tharushi_CV.pdf"
-              className="ml-4 px-6 py-2 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-lg font-medium shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/40 transition-all duration-300 flex items-center gap-2"
+              className="ml-2 lg:ml-4 px-4 py-1.5 lg:px-6 lg:py-2 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-lg font-medium shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/40 transition-all duration-300 flex items-center gap-2"
               whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
             >
-              <FiDownload size={18} />
-              Download CV
+              <FiDownload size={16} className="lg:w-5 lg:h-5" />
+              <span className="text-sm lg:text-base">CV</span>
             </motion.a>
           </div>
 
           {/* Mobile menu button */}
-          <div className="flex items-center md:hidden space-x-4">
+          <div className="flex items-center md:hidden space-x-2 sm:space-x-4">
+            {/* Mobile Download Button */}
+            <motion.a
+              href="/assets/Tharushi_CV.pdf"
+              download="Tharushi_CV.pdf"
+              className="px-3 py-1.5 bg-gradient-to-r from-emerald-500 to-cyan-500 text-white rounded-lg font-medium shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/40 transition-all duration-300 flex items-center gap-1 sm:gap-2 text-sm"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FiDownload size={14} className="sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">CV</span>
+            </motion.a>
+            
             <motion.button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg bg-gray-800/50 border border-emerald-500/20 text-emerald-300 hover:text-emerald-400 hover:border-emerald-400/40 transition-all duration-300"
+              className="p-1.5 sm:p-2 rounded-lg bg-gray-800/50 border border-emerald-500/20 text-emerald-300 hover:text-emerald-400 hover:border-emerald-400/40 transition-all duration-300"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
+              aria-label={isOpen ? "Close menu" : "Open menu"}
             >
-              {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+              {isOpen ? <FiX size={20} className="sm:w-6 sm:h-6" /> : <FiMenu size={20} className="sm:w-6 sm:h-6" />}
             </motion.button>
           </div>
         </div>
@@ -193,7 +243,8 @@ const Navbar = () => {
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="md:hidden mt-4 py-4 px-4 bg-gray-900/95 backdrop-blur-xl rounded-2xl border border-emerald-500/20 shadow-2xl"
+              className="md:hidden mt-3 py-4 px-4 bg-gray-900/98 backdrop-blur-xl rounded-2xl border border-emerald-500/20 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
             >
               <div className="space-y-2">
                 {navItems.map((item) => (
@@ -208,7 +259,7 @@ const Navbar = () => {
                     whileHover={{ x: 5 }}
                     whileTap={{ scale: 0.98 }}
                   >
-                    <span className="font-medium">{item.name}</span>
+                    <span className="font-medium text-base">{item.name}</span>
                     {activeSection === item.id && (
                       <motion.div
                         className="w-2 h-2 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400"
@@ -219,7 +270,7 @@ const Navbar = () => {
                   </motion.button>
                 ))}
                 
-                {/* Mobile Download Button - FIXED: Removed conflicting "block" class */}
+                {/* Mobile Download Button */}
                 <motion.a
                   href="/assets/Tharushi_CV.pdf"
                   download="Tharushi_CV.pdf"
@@ -238,10 +289,7 @@ const Navbar = () => {
       {/* Animated underline for active section (desktop) */}
       <motion.div
         className="hidden md:block absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-emerald-400 to-cyan-400"
-        animate={{
-          x: navItems.findIndex(item => item.id === activeSection) * 96 + 16,
-          width: 64
-        }}
+        animate={getActiveIndicatorPosition()}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
       />
     </motion.nav>

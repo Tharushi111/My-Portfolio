@@ -49,10 +49,9 @@ const About = () => {
     } else {
       controls.start('hidden');
     }
-  }, [controls, inView, countingStarted]); // Added countingStarted to dependency array
+  }, [controls, inView, countingStarted]);
 
   const startCounting = () => {
-    // Animate projects count (5+)
     let projectsCount = 0;
     const projectsInterval = setInterval(() => {
       if (projectsCount < 5) {
@@ -63,7 +62,6 @@ const About = () => {
       }
     }, 100);
 
-    // Animate technologies count (7+)
     let techCount = 0;
     const techInterval = setInterval(() => {
       if (techCount < 7) {
@@ -199,18 +197,18 @@ const About = () => {
   return (
     <motion.section
       id="about"
-      className="py-20 bg-gradient-to-b from-gray-900 to-gray-950 text-white overflow-hidden"
+      className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-gray-900 to-gray-950 text-white overflow-hidden"
       ref={ref}
       initial="hidden"
       animate={controls}
       variants={containerVariants}
     >
-      {/* Animated Background Elements */}
+      {/* Animated Background Elements - Reduced on mobile */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(12)].map((_, i) => (
+        {[...Array(6)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-1 h-1 bg-emerald-400/10 rounded-full"
+            className="absolute w-1 h-1 bg-emerald-400/10 rounded-full hidden sm:block"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -231,43 +229,43 @@ const About = () => {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div 
-          className="text-center mb-16"
+          className="text-center mb-10 sm:mb-14 lg:mb-16"
           variants={fadeInUp}
         >
-          <div className="inline-flex items-center gap-2 mb-4">
+          <div className="inline-flex items-center gap-2 mb-3 sm:mb-4">
             <motion.div 
-              className="h-1 w-8 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full"
+              className="h-1 w-6 sm:w-8 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full"
               initial={{ width: 0 }}
               animate={controls}
               variants={{
                 hidden: { width: 0 },
-                visible: { width: 32, transition: { duration: 0.8, delay: 0.3 } }
+                visible: { width: 24, transition: { duration: 0.8, delay: 0.3 } }
               }}
             />
             <motion.span 
-              className="text-emerald-400 font-medium tracking-wider"
+              className="text-emerald-400 font-medium tracking-wider text-xs sm:text-sm"
               variants={itemVariants}
             >
               ABOUT ME
             </motion.span>
             <motion.div 
-              className="h-1 w-8 bg-gradient-to-r from-cyan-400 to-emerald-400 rounded-full"
+              className="h-1 w-6 sm:w-8 bg-gradient-to-r from-cyan-400 to-emerald-400 rounded-full"
               initial={{ width: 0 }}
               animate={controls}
               variants={{
                 hidden: { width: 0 },
-                visible: { width: 32, transition: { duration: 0.8, delay: 0.4 } }
+                visible: { width: 24, transition: { duration: 0.8, delay: 0.4 } }
               }}
             />
           </div>
           <motion.h2 
-            className="text-4xl md:text-5xl font-bold text-white mb-6"
+            className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6"
             variants={fadeInUp}
           >
             Get to Know <span className="text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text">Me</span>
           </motion.h2>
           <motion.p 
-            className="text-xl text-gray-400 max-w-3xl mx-auto"
+            className="text-base sm:text-lg lg:text-xl text-gray-400 max-w-3xl mx-auto px-4 sm:px-0"
             variants={fadeInUp}
           >
             Learn about my journey, skills, and passion for technology
@@ -275,16 +273,16 @@ const About = () => {
         </motion.div>
 
         {/* Main Content */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-20">
+        <div className="grid lg:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16 lg:mb-20">
           {/* Column 1: Image with Education */}
-          <div className="space-y-8">
-            {/* Profile Image - SIMPLIFIED */}
+          <div className="space-y-6 sm:space-y-8">
+            {/* Profile Image */}
             <motion.div 
               className="relative group"
               variants={slideInLeft}
             >
               <motion.div
-                className="relative w-full aspect-square rounded-2xl overflow-hidden shadow-2xl border-4 border-emerald-500/30"
+                className="relative w-full aspect-square rounded-xl sm:rounded-2xl overflow-hidden shadow-lg sm:shadow-xl lg:shadow-2xl border-2 sm:border-4 border-emerald-500/30"
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
               >
@@ -296,36 +294,34 @@ const About = () => {
                 {/* Gradient Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               </motion.div>
-              
-              {/* Removed rotating decorative elements */}
             </motion.div>
 
             {/* Education Card */}
             <motion.div 
-              className="p-6 rounded-2xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-emerald-500/20 backdrop-blur-sm"
+              className="p-4 sm:p-6 rounded-xl sm:rounded-2xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-emerald-500/20 backdrop-blur-sm"
               variants={cardVariants}
               custom={0}
               whileHover={{ y: -5, transition: { duration: 0.2 } }}
             >
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex items-center gap-3 mb-3 sm:mb-4">
                 <motion.div 
-                  className="p-2 bg-emerald-500/10 rounded-lg"
+                  className="p-1.5 sm:p-2 bg-emerald-500/10 rounded-lg"
                   whileHover={{ rotate: 10, scale: 1.1 }}
                 >
-                  <FiBookOpen className="text-2xl text-emerald-400" />
+                  <FiBookOpen className="text-xl sm:text-2xl text-emerald-400" />
                 </motion.div>
-                <h4 className="text-xl font-bold text-white">Education</h4>
+                <h4 className="text-lg sm:text-xl font-bold text-white">Education</h4>
               </div>
               
-              <div className="space-y-3">
+              <div className="space-y-2 sm:space-y-3">
                 <div className="flex items-start justify-between">
-                  <div>
-                    <h5 className="text-lg font-semibold text-emerald-400">SLIIT Malabe</h5>
-                    <p className="text-gray-300">BSc in Information Technology</p>
-                    <p className="text-gray-400 text-sm">2023 - Present</p>
+                  <div className="flex-1 min-w-0">
+                    <h5 className="text-base sm:text-lg font-semibold text-emerald-400 truncate">SLIIT Malabe</h5>
+                    <p className="text-gray-300 text-sm sm:text-base">BSc in Information Technology</p>
+                    <p className="text-gray-400 text-xs sm:text-sm">2023 - Present</p>
                   </div>
                   <motion.span 
-                    className="px-3 py-1 bg-emerald-500/10 text-emerald-400 text-sm rounded-full border border-emerald-500/20"
+                    className="px-2 py-1 sm:px-3 sm:py-1 bg-emerald-500/10 text-emerald-400 text-xs sm:text-sm rounded-full border border-emerald-500/20 ml-2 flex-shrink-0"
                     whileHover={{ scale: 1.05 }}
                   >
                     3rd Year
@@ -336,19 +332,19 @@ const About = () => {
           </div>
 
           {/* Column 2: Introduction & Achievements */}
-          <div className="space-y-8 lg:col-span-2">
+          <div className="space-y-6 sm:space-y-8 lg:col-span-2">
             {/* Introduction */}
             <motion.div 
-              className="space-y-6"
+              className="space-y-4 sm:space-y-6"
               variants={slideInRight}
             >
-              <h3 className="text-3xl font-bold text-white">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
                 Hello, I'm <span className="text-transparent bg-gradient-to-r from-emerald-300 to-cyan-300 bg-clip-text">Tharushi Paranagama</span>
               </h3>
               
-              <div className="space-y-4 text-gray-300">
+              <div className="space-y-3 sm:space-y-4 text-gray-300">
                 <motion.p 
-                  className="text-lg leading-relaxed"
+                  className="text-sm sm:text-base lg:text-lg leading-relaxed"
                   variants={itemVariants}
                 >
                   I'm a passionate <span className="text-emerald-400 font-semibold">3rd year IT undergraduate</span> at 
@@ -356,7 +352,7 @@ const About = () => {
                   <span className="text-cyan-400 font-semibold"> Bachelor's degree in Information Technology</span>.
                 </motion.p>
                 <motion.p 
-                  className="text-lg leading-relaxed"
+                  className="text-sm sm:text-base lg:text-lg leading-relaxed"
                   variants={itemVariants}
                 >
                   My journey in technology began with curiosity and has evolved into a deep passion 
@@ -365,7 +361,7 @@ const About = () => {
                   and user-centered design principles.
                 </motion.p>
                 <motion.p 
-                  className="text-lg leading-relaxed"
+                  className="text-sm sm:text-base lg:text-lg leading-relaxed"
                   variants={itemVariants}
                 >
                   When I'm not coding, you'll find me exploring new technologies, contributing to 
@@ -374,9 +370,9 @@ const About = () => {
               </div>
             </motion.div>
 
-            {/* Expertise Areas with Professional Animation */}
+            {/* Expertise Areas */}
             <motion.div 
-              className="grid md:grid-cols-3 gap-4"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4"
               variants={containerVariants}
               initial="hidden"
               animate={controls}
@@ -384,41 +380,41 @@ const About = () => {
               {expertiseAreas.map((area, index) => (
                 <motion.div 
                   key={index} 
-                  className="p-4 rounded-xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-emerald-500/10 hover:border-emerald-500/40 transition-all duration-300"
+                  className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-gradient-to-br from-gray-800/50 to-gray-900/50 border border-emerald-500/10 hover:border-emerald-500/40 transition-all duration-300 h-full"
                   variants={cardVariants}
                   custom={index}
                   whileHover={{ 
-                    y: -8,
-                    boxShadow: "0 20px 40px rgba(16, 185, 129, 0.15)",
+                    y: -6,
+                    boxShadow: "0 10px 25px rgba(16, 185, 129, 0.15)",
                     transition: { duration: 0.3 }
                   }}
                 >
-                  <div className="flex items-center gap-3 mb-3">
+                  <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
                     <motion.div 
-                      className="p-2 bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 rounded-lg"
+                      className="p-1.5 sm:p-2 bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 rounded-lg"
                       whileHover={{ scale: 1.1, rotate: 5 }}
                     >
-                      <area.icon className="text-xl text-emerald-400" />
+                      <area.icon className="text-lg sm:text-xl text-emerald-400" />
                     </motion.div>
-                    <h4 className="font-bold text-white">{area.title}</h4>
+                    <h4 className="font-bold text-white text-sm sm:text-base lg:text-lg">{area.title}</h4>
                   </div>
-                  <p className="text-sm text-gray-400">{area.desc}</p>
+                  <p className="text-xs sm:text-sm text-gray-400">{area.desc}</p>
                 </motion.div>
               ))}
             </motion.div>
 
-            {/* Achievement Stats with Counting Animation */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {/* Achievement Stats */}
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
               {achievements.map((item, index) => (
                 <motion.div 
                   key={index} 
-                  className="p-4 rounded-xl bg-gray-800/30 border border-emerald-500/10 hover:border-emerald-500/40 transition-all duration-300"
+                  className="p-3 sm:p-4 rounded-lg sm:rounded-xl bg-gray-800/30 border border-emerald-500/10 hover:border-emerald-500/40 transition-all duration-300"
                   variants={cardVariants}
                   custom={index}
-                  whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+                  whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
                 >
                   <div className="text-center">
-                    <div className="text-3xl font-bold text-emerald-400 mb-1 flex justify-center items-center">
+                    <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-emerald-400 mb-1 flex justify-center items-center">
                       {item.count !== null ? (
                         <motion.span
                           initial={{ opacity: 0, scale: 0.5 }}
@@ -428,11 +424,11 @@ const About = () => {
                           {item.count}+
                         </motion.span>
                       ) : (
-                        item.number
+                        <span className="text-lg sm:text-xl lg:text-3xl">{item.number}</span>
                       )}
                     </div>
-                    <div className="text-sm font-medium text-gray-300">{item.label}</div>
-                    <div className="text-xs text-gray-400 mt-1">{item.desc}</div>
+                    <div className="text-xs sm:text-sm font-medium text-gray-300 truncate">{item.label}</div>
+                    <div className="text-xs text-gray-400 mt-1 truncate">{item.desc}</div>
                   </div>
                 </motion.div>
               ))}
@@ -442,28 +438,28 @@ const About = () => {
 
         {/* Technologies Section */}
         <motion.div 
-          className="space-y-12"
+          className="space-y-8 sm:space-y-10 lg:space-y-12"
           variants={fadeInUp}
         >
           {/* Section Header */}
           <div className="text-center">
             <motion.h3 
-              className="text-3xl md:text-4xl font-bold text-white mb-4"
+              className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-3 sm:mb-4"
               variants={fadeInUp}
             >
               My <span className="text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text">Tech Stack</span>
             </motion.h3>
             <motion.p 
-              className="text-gray-400 max-w-2xl mx-auto mb-8"
+              className="text-gray-400 max-w-2xl mx-auto mb-6 sm:mb-8 text-sm sm:text-base px-4 sm:px-0"
               variants={fadeInUp}
             >
               Technologies and programming languages I use to build modern web applications
             </motion.p>
           </div>
 
-          {/* Skills Grid with Professional Animation */}
+          {/* Skills Grid */}
           <motion.div 
-            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"
+            className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4"
             variants={containerVariants}
             initial="hidden"
             animate={controls}
@@ -474,25 +470,25 @@ const About = () => {
                 custom={index}
                 variants={techIconVariants}
                 whileHover="hover"
-                className="group relative p-4 rounded-xl bg-gradient-to-b from-gray-800/50 to-gray-900/50 border border-gray-700 hover:border-emerald-500/40 transition-all duration-300"
+                className="group relative p-3 sm:p-4 rounded-lg sm:rounded-xl bg-gradient-to-b from-gray-800/50 to-gray-900/50 border border-gray-700 hover:border-emerald-500/40 transition-all duration-300"
               >
-                <div className="flex flex-col items-center justify-center space-y-3">
+                <div className="flex flex-col items-center justify-center space-y-2 sm:space-y-3">
                   {/* Skill Icon */}
                   <div className="relative">
                     <motion.div
                       whileHover={{ scale: 1.2, rotate: 10 }}
                       transition={{ duration: 0.3 }}
                     >
-                      <lang.icon className={`text-4xl ${lang.color}`} />
+                      <lang.icon className={`text-2xl sm:text-3xl lg:text-4xl ${lang.color}`} />
                     </motion.div>
                   </div>
                   
                   {/* Skill Info */}
                   <div className="text-center space-y-1">
-                    <p className="font-medium text-white text-sm">{lang.name}</p>
+                    <p className="font-medium text-white text-xs sm:text-sm truncate w-full">{lang.name}</p>
                     <div className="flex flex-col items-center gap-1">
-                      <span className="text-xs text-gray-400">{lang.level}</span>
-                      <span className={`px-2 py-0.5 text-xs rounded-full ${lang.category === 'Frontend' ? 'bg-blue-500/10 text-blue-400' : 
+                      <span className="text-xs text-gray-400 truncate">{lang.level}</span>
+                      <span className={`px-1.5 sm:px-2 py-0.5 text-xs rounded-full ${lang.category === 'Frontend' ? 'bg-blue-500/10 text-blue-400' : 
                                         lang.category === 'Backend' ? 'bg-green-500/10 text-green-400' :
                                         lang.category === 'Database' ? 'bg-purple-500/10 text-purple-400' :
                                         'bg-orange-500/10 text-orange-400'}`}>
@@ -507,13 +503,13 @@ const About = () => {
 
           {/* CTA */}
           <motion.div 
-            className="text-center pt-8"
+            className="text-center pt-6 sm:pt-8"
             variants={fadeInUp}
           >
-            <div className="inline-flex flex-col sm:flex-row items-center gap-4">
+            <div className="inline-flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
               <motion.a 
                 href="#projects" 
-                className="px-8 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold transition-all duration-300"
+                className="px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg sm:rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-500 text-white font-semibold text-sm sm:text-base transition-all duration-300"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
@@ -523,11 +519,11 @@ const About = () => {
                 href="https://github.com/Tharushi111" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-gray-800 border border-emerald-500/30 hover:border-emerald-400 text-emerald-400 transition-all duration-300"
+                className="inline-flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg sm:rounded-xl bg-gray-800 border border-emerald-500/30 hover:border-emerald-400 text-emerald-400 text-sm sm:text-base transition-all duration-300"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <SiGithub className="text-lg" />
+                <SiGithub className="text-base sm:text-lg" />
                 <span>GitHub Profile</span>
               </motion.a>
             </div>

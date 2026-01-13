@@ -1,23 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { FaGraduationCap, FaBook, FaSchool, FaCalendarAlt, FaChartLine } from 'react-icons/fa';
-import { FiTarget } from 'react-icons/fi';
+import { FaGraduationCap, FaBook, FaSchool, FaCalendarAlt, FaChartLine, FaCheckCircle } from 'react-icons/fa';
+import { FiTarget, FiAward } from 'react-icons/fi';
 
 const Education = () => {
-  const [ref, inView] = useInView({
-    threshold: 0.1,
-    triggerOnce: false
-  });
-  
   const controls = useAnimation();
-  const sectionRef = useRef();
+  const [ref, inView] = useInView({ threshold: 0.15, triggerOnce: true });
 
   useEffect(() => {
     if (inView) {
       controls.start('visible');
-    } else {
-      controls.start('hidden');
     }
   }, [controls, inView]);
 
@@ -28,40 +21,39 @@ const Education = () => {
       institution: "Sri Lanka Institute of Information Technology (SLIIT)",
       period: "2023 – Present",
       icon: FaGraduationCap,
-      color: "from-emerald-500 to-cyan-500",
-      iconColor: "text-emerald-400",
+      color: "from-emerald-400 to-cyan-500",
+      status: "In Progress",
+      cgpa: "3.78",
       achievements: [
         "Maintained a CGPA of 3.78 out of 4.00",
-        "Comprehensive curriculum covering software development, databases, and web technologies",
-        "Hands-on experience through individual and group projects",
-        "Learning modern technologies: Java, MERN Stack, React, Spring Boot",
-        "Strong focus on problem-solving and practical application"
+        "MERN Stack, Java & Spring Boot Development",
+        "Focus on Software Architecture & Problem Solving"
       ]
     },
     {
       title: "Secondary Education",
-      subtitle: "GCE Advanced Level (A/L) – Commerce Stream",
+      subtitle: "GCE Advanced Level – Commerce Stream",
       institution: "Gnanodaya National College Kalutara",
       period: "2020 – 2022",
       icon: FaBook,
-      color: "from-blue-500 to-purple-500",
-      iconColor: "text-blue-400",
+      color: "from-blue-500 to-indigo-600",
+      status: "Completed",
       achievements: [
         "Subjects: Accounting, Business Management, Economics",
-        "Completed with good results in all subjects"
+        "High proficiency in Financial Mathematics"
       ]
     },
     {
-      title: "GCE Ordinary Level (O/L)",
-      subtitle: "Secondary Education",
+      title: "GCE Ordinary Level",
+      subtitle: "GCE Ordinary Level",
       institution: "Gnanodaya National College Kalutara",
       period: "2019",
       icon: FaSchool,
-      color: "from-amber-500 to-orange-500",
-      iconColor: "text-amber-400",
+      color: "from-purple-500 to-pink-500",
+      status: "Completed",
       achievements: [
-        "Successfully completed with good results including ICT and Mathematics",
-        "Early interest in programming and technology subjects"
+        "Excellent results in ICT and Mathematics",
+        "Early foundation in computational thinking"
       ]
     }
   ];
@@ -70,252 +62,146 @@ const Education = () => {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1
-      }
+      transition: { staggerChildren: 0.2, delayChildren: 0.3 }
     }
   };
 
-  const headerVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        duration: 0.7,
-        ease: "easeOut"
-      }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { scale: 0.9, opacity: 0 },
-    visible: {
-      scale: 1,
-      opacity: 1,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut"
-      }
-    },
-    hover: {
-      y: -5,
-      transition: {
-        duration: 0.3
-      }
-    }
+  const itemVariants = {
+    hidden: { y: 30, opacity: 0 },
+    visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } }
   };
 
   return (
-    <motion.section
-      id="education"
-      className="relative py-20 bg-gradient-to-b from-gray-950 to-gray-900 overflow-hidden"
-      ref={sectionRef}
-    >
+    <section id="education" className="relative py-12 sm:py-16 lg:py-20 xl:py-24 bg-[#030712] overflow-hidden" ref={ref}>
+      {/* Background Glows - Responsive */}
+      <div className="absolute top-0 left-1/4 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-emerald-500/10 blur-[80px] sm:blur-[100px] lg:blur-[120px] rounded-full -z-10" />
+      <div className="absolute bottom-0 right-1/4 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-blue-500/10 blur-[80px] sm:blur-[100px] lg:blur-[120px] rounded-full -z-10" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
+        {/* Header Section */}
         <motion.div 
-          ref={ref}
           initial="hidden"
           animate={controls}
           variants={containerVariants}
-          className="text-center mb-16"
+          className="text-center mb-12 sm:mb-16 lg:mb-20"
         >
-          <motion.div 
-            className="inline-flex items-center gap-2 mb-6"
-            variants={headerVariants}
+          <motion.span 
+            variants={itemVariants}
+            className="inline-block px-3 py-1 sm:px-4 sm:py-1.5 mb-3 sm:mb-4 text-xs sm:text-sm font-medium tracking-wider text-emerald-400 uppercase bg-emerald-400/10 border border-emerald-400/20 rounded-full"
           >
-            <motion.div 
-              className="h-1 w-8 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full"
-              initial={{ width: 0 }}
-              animate={controls}
-              variants={{
-                hidden: { width: 0 },
-                visible: { width: 32, transition: { duration: 0.8, delay: 0.3 } }
-              }}
-            />
-            <FaGraduationCap className="text-3xl text-emerald-400" />
-            <motion.div 
-              className="h-1 w-8 bg-gradient-to-r from-cyan-400 to-emerald-400 rounded-full"
-              initial={{ width: 0 }}
-              animate={controls}
-              variants={{
-                hidden: { width: 0 },
-                visible: { width: 32, transition: { duration: 0.8, delay: 0.4 } }
-              }}
-            />
-          </motion.div>
-          
+            Academic Background
+          </motion.span>
           <motion.h2 
-            className="text-4xl md:text-5xl font-bold text-white mb-4"
-            variants={headerVariants}
+            variants={itemVariants}
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 sm:mb-6 tracking-tight"
           >
-            Education <span className="text-transparent bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text">Journey</span>
+            Education <span className="bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent">Journey</span>
           </motion.h2>
-          
-          <motion.p 
-            className="text-lg text-gray-400 max-w-2xl mx-auto"
-            variants={headerVariants}
-          >
-            My academic path that shaped my technical expertise and problem-solving skills
+          <motion.p variants={itemVariants} className="text-gray-400 max-w-2xl mx-auto text-sm sm:text-base lg:text-lg px-4 sm:px-0">
+            A chronological look at my academic foundations and technical certifications.
           </motion.p>
         </motion.div>
 
-        {/* Education Cards Grid */}
+        {/* Timeline/Grid Container - Responsive columns */}
         <motion.div 
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+          variants={containerVariants}
           initial="hidden"
           animate={controls}
-          variants={containerVariants}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 relative"
         >
           {educationData.map((edu, index) => (
             <motion.div
               key={index}
-              variants={cardVariants}
-              custom={index}
-              whileHover="hover"
-              className="group"
+              variants={itemVariants}
+              whileHover={{ y: -8 }}
+              className="relative group h-full"
             >
-              <div className="h-full bg-gradient-to-br from-gray-900/80 to-gray-800/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-700 hover:border-emerald-500/40 transition-all duration-300 shadow-xl">
-                {/* Card Header */}
-                <div className="mb-6">
-                  <div className="flex items-start justify-between mb-4">
-                    <motion.div 
-                      className={`p-3 rounded-xl bg-gradient-to-br ${edu.color}/20`}
-                      whileHover={{ rotate: 5, scale: 1.1 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      <edu.icon className={`text-2xl ${edu.iconColor}`} />
-                    </motion.div>
-                    <div className="flex items-center gap-2 text-sm text-emerald-400 bg-gray-800/50 px-3 py 1.5 rounded-full">
-                      <FaCalendarAlt className="text-sm" />
-                      <span>{edu.period}</span>
-                    </div>
+              <div className="h-full relative z-10 p-6 sm:p-7 lg:p-8 rounded-2xl sm:rounded-3xl bg-gray-900/40 border border-white/5 backdrop-blur-xl hover:border-emerald-500/30 transition-all duration-500 shadow-lg sm:shadow-xl lg:shadow-2xl">
+                
+                {/* Top Badge & Date */}
+                <div className="flex justify-between items-start mb-6 sm:mb-8">
+                  <div className={`p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-gradient-to-br ${edu.color} shadow-lg shadow-emerald-500/20`}>
+                    <edu.icon className="text-xl sm:text-2xl text-white" />
                   </div>
-
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">
-                    {edu.title}
-                  </h3>
-                  <p className="text-lg font-semibold text-emerald-400 mb-1">{edu.subtitle}</p>
-                  <p className="text-gray-300">{edu.institution}</p>
+                  <span className="flex items-center gap-1 sm:gap-1.5 text-xs font-bold text-gray-400 uppercase tracking-widest">
+                    <FaCalendarAlt className="text-emerald-400 text-xs sm:text-sm" />
+                    <span className="text-xs sm:text-xs">{edu.period}</span>
+                  </span>
                 </div>
 
-                {/* CGPA for Bachelor's */}
-                {index === 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={controls}
-                    variants={{
-                      hidden: { opacity: 0, scale: 0.8 },
-                      visible: { 
-                        opacity: 1, 
-                        scale: 1,
-                        transition: { delay: 0.4, duration: 0.5 }
-                      }
-                    }}
-                    className="mb-6 p-4 bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 rounded-xl border border-emerald-500/20"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <FaChartLine className="text-emerald-400 text-xl" />
-                        <div>
-                          <p className="text-white font-semibold">Current CGPA</p>
-                          <p className="text-sm text-gray-400">Out of 4.00 scale</p>
-                        </div>
+                {/* Content */}
+                <div className="space-y-3 sm:space-y-4">
+                  <div>
+                    <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-white group-hover:text-emerald-400 transition-colors duration-300 line-clamp-2">
+                      {edu.title}
+                    </h3>
+                    <p className="text-emerald-400/90 font-medium mt-1 text-xs sm:text-sm uppercase tracking-wide line-clamp-2">
+                      {edu.subtitle}
+                    </p>
+                  </div>
+
+                  <p className="text-gray-400 leading-relaxed font-medium text-sm sm:text-base">
+                    {edu.institution}
+                  </p>
+
+                  {/* CGPA Card for Highlight */}
+                  {edu.cgpa && (
+                    <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 mt-4 sm:mt-6">
+                      <div className="p-1.5 sm:p-2 bg-emerald-400/20 rounded-md sm:rounded-lg flex-shrink-0">
+                        <FaChartLine className="text-emerald-400 text-base sm:text-lg" />
                       </div>
-                      <motion.div 
-                        className="text-3xl font-bold text-emerald-400"
-                        initial={{ opacity: 0 }}
-                        animate={controls}
-                        variants={{
-                          hidden: { opacity: 0 },
-                          visible: { 
-                            opacity: 1,
-                            transition: { delay: 0.6, duration: 0.8 }
-                          }
-                        }}
-                      >
-                        3.78
-                      </motion.div>
+                      <div className="min-w-0">
+                        <p className="text-xs text-gray-500 uppercase font-bold tracking-[0.1em] truncate">Current Grade</p>
+                        <p className="text-lg sm:text-xl font-bold text-white truncate">
+                          {edu.cgpa} <span className="text-xs sm:text-sm text-gray-500">/ 4.00</span>
+                        </p>
+                      </div>
                     </div>
-                  </motion.div>
-                )}
+                  )}
 
-                {/* Achievements List */}
-                <div className="space-y-3 mb-6">
-                  {edu.achievements.map((achievement, i) => (
-                    <motion.div 
-                      key={i} 
-                      className="flex items-start gap-3"
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={controls}
-                      variants={{
-                        hidden: { opacity: 0, x: -10 },
-                        visible: { 
-                          opacity: 1, 
-                          x: 0,
-                          transition: { delay: 0.2 + (i * 0.1) }
-                        }
-                      }}
-                    >
-                      <div className="w-2 h-2 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 mt-2 flex-shrink-0"></div>
-                      <p className="text-gray-300 text-sm">{achievement}</p>
-                    </motion.div>
-                  ))}
+                  {/* Achievements */}
+                  <ul className="space-y-2 sm:space-y-3 pt-3 sm:pt-4">
+                    {edu.achievements.map((item, i) => (
+                      <li key={i} className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-gray-400">
+                        <FaCheckCircle className="text-emerald-500 mt-0.5 sm:mt-1 flex-shrink-0 text-xs sm:text-sm" />
+                        <span className="flex-1">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
-                {/* Status Indicator */}
-                <div className="pt-4 border-t border-gray-700">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <motion.div 
-                        className="w-2 h-2 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500"
-                        animate={{ 
-                          opacity: [1, 0.5, 1],
-                          scale: [1, 1.2, 1]
-                        }}
-                        transition={{
-                          duration: 2,
-                          repeat: Infinity,
-                          ease: "easeInOut"
-                        }}
-                      />
-                      <span className="text-xs text-gray-400">Completed</span>
-                    </div>
-                    <div className="text-xs text-gray-400">{index === 0 ? "In Progress" : "Completed"}</div>
-                  </div>
+                {/* Footer Status */}
+                <div className="mt-6 sm:mt-8 pt-4 sm:pt-6 border-t border-white/5 flex items-center justify-between">
+                  <span className={`text-[10px] sm:text-xs font-bold uppercase tracking-[0.15em] sm:tracking-[0.2em] ${edu.status === 'In Progress' ? 'text-amber-400' : 'text-emerald-400'}`}>
+                    {edu.status}
+                  </span>
+                  <FiAward className="text-gray-600 group-hover:text-emerald-400 transition-colors text-base sm:text-lg" />
                 </div>
               </div>
             </motion.div>
           ))}
         </motion.div>
 
-        {/* Additional Info */}
-        <motion.div
+        {/* Bottom CTA / Quote - Responsive */}
+        <motion.div 
+          variants={itemVariants}
           initial="hidden"
           animate={controls}
-          variants={{
-            hidden: { opacity: 0, y: 20 },
-            visible: { 
-              opacity: 1, 
-              y: 0,
-              transition: { delay: 0.6, duration: 0.5 }
-            }
-          }}
-          className="mt-12"
+          className="mt-12 sm:mt-16 lg:mt-20 flex justify-center"
         >
-          <div className="text-center">
-            <div className="inline-flex items-center gap-4 p-4 bg-gradient-to-r from-gray-800/50 to-gray-900/50 backdrop-blur-sm rounded-2xl border border-emerald-500/20">
-              <FiTarget className="text-emerald-400 text-xl" />
-              <p className="text-gray-300">
-                Continuously learning through online courses, coding challenges, and personal projects
+          <div className="relative px-4 sm:px-6 lg:px-8 py-3 sm:py-4 bg-gray-900/50 rounded-xl sm:rounded-2xl border border-white/5 backdrop-blur-sm group hover:border-emerald-500/20 transition-all w-full max-w-2xl">
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                <FiTarget className="text-emerald-400 animate-pulse text-sm sm:text-base" />
+              </div>
+              <p className="text-gray-400 text-xs sm:text-sm md:text-base">
+                Focused on <span className="text-white font-semibold">Continuous Learning</span> & Self-Development
               </p>
             </div>
           </div>
         </motion.div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

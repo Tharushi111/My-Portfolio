@@ -136,18 +136,18 @@ const Hero = () => {
   return (
     <motion.section
       id="home"
-      className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-emerald-950 overflow-hidden pt-16"
+      className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-950 via-gray-900 to-emerald-950 overflow-hidden pt-16 pb-8 sm:pt-16 sm:pb-12"
       initial="hidden"
       animate={controls}
       variants={containerVariants}
       ref={ref}
     >
-      {/* Animated Background Particles */}
+      {/* Animated Background Particles - Reduced on mobile */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(8)].map((_, i) => (
+        {[...Array(5)].map((_, i) => (
           <motion.div
             key={i}
-            className="absolute w-2 h-2 bg-emerald-400/20 rounded-full"
+            className="absolute w-1.5 h-1.5 sm:w-2 sm:h-2 bg-emerald-400/20 rounded-full hidden sm:block"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
@@ -164,9 +164,9 @@ const Hero = () => {
           />
         ))}
         
-        {/* Background Glow */}
+        {/* Background Glow - Responsive sizes */}
         <motion.div
-          className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 rounded-full blur-3xl"
+          className="absolute top-0 right-0 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-gradient-to-br from-emerald-500/10 to-cyan-500/10 rounded-full blur-xl sm:blur-2xl lg:blur-3xl"
           animate={{
             scale: [1, 1.1, 1],
             opacity: [0.3, 0.5, 0.3],
@@ -178,7 +178,7 @@ const Hero = () => {
           }}
         />
         <motion.div
-          className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-full blur-3xl"
+          className="absolute bottom-0 left-0 w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-full blur-xl sm:blur-2xl lg:blur-3xl"
           animate={{
             scale: [1.1, 1, 1.1],
             opacity: [0.5, 0.3, 0.5],
@@ -192,30 +192,30 @@ const Hero = () => {
       </div>
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-8">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-6 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-4 sm:py-8">
+        <div className="grid lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-6 items-center">
           
           {/* Text Content - Left Side */}
           <motion.div 
-            className="lg:col-span-7"
+            className="lg:col-span-7 order-2 lg:order-1"
             variants={containerVariants}
           >
             {/* Introduction */}
             <motion.div 
-              className="mb-6"
+              className="mb-4 sm:mb-6"
               variants={itemVariants}
             >
-              <div className="inline-flex items-center gap-2 mb-4">
+              <div className="inline-flex items-center gap-2 mb-3 sm:mb-4">
                 <motion.div 
-                  className="h-1 w-8 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full"
+                  className="h-1 w-6 sm:w-8 bg-gradient-to-r from-emerald-400 to-cyan-400 rounded-full"
                   variants={{
                     hidden: { width: 0 },
-                    visible: { width: 32 }
+                    visible: { width: 24 }
                   }}
                   transition={{ duration: 0.8, delay: 0.2 }}
                 />
                 <motion.span 
-                  className="text-emerald-400 font-medium tracking-wider"
+                  className="text-emerald-400 font-medium tracking-wider text-xs sm:text-sm"
                   variants={itemVariants}
                 >
                   HELLO, I'M
@@ -223,14 +223,14 @@ const Hero = () => {
               </div>
 
               <motion.h1 
-                className="text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-4"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight mb-3 sm:mb-4"
                 variants={slideInLeft}
               >
                 <span className="text-transparent bg-gradient-to-r from-emerald-300 via-cyan-300 to-green-400 bg-clip-text">
                   Tharushi
                 </span>
                 <motion.span 
-                  className="block text-4xl md:text-5xl lg:text-6xl text-gray-300 mt-2"
+                  className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-6xl text-gray-300 mt-1 sm:mt-2"
                   variants={{
                     hidden: { opacity: 0, y: 20 },
                     visible: { opacity: 1, y: 0 }
@@ -244,23 +244,23 @@ const Hero = () => {
 
             {/* Title with Typing Animation */}
             <motion.div 
-              className="mb-8"
+              className="mb-6 sm:mb-8"
               variants={itemVariants}
             >
               <motion.div 
-                className="text-2xl md:text-3xl text-emerald-400 font-semibold mb-3 min-h-[2.5rem] flex items-center"
+                className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-emerald-400 font-semibold mb-2 sm:mb-3 min-h-[1.5rem] sm:min-h-[2rem] lg:min-h-[2.5rem] flex items-center"
               >
                 <span className="font-mono">
                   {displayedTitle}
                   <motion.span
-                    className="inline-block ml-1 w-[3px] h-8 bg-emerald-400"
+                    className="inline-block ml-1 w-[2px] sm:w-[3px] h-5 sm:h-6 lg:h-8 bg-emerald-400"
                     animate={{ opacity: showCursor && isTypingComplete ? 1 : 0 }}
                     transition={{ duration: 0.3 }}
                   />
                 </span>
               </motion.div>
               <motion.p 
-                className="text-lg md:text-xl text-gray-300 max-w-2xl leading-relaxed"
+                className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 max-w-2xl leading-relaxed"
                 variants={itemVariants}
               >
                 Passionate Full Stack Developer specializing in creating innovative digital solutions 
@@ -270,30 +270,30 @@ const Hero = () => {
 
             {/* CTA Buttons */}
             <motion.div 
-              className="flex flex-col sm:flex-row gap-4 mb-10"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-8 sm:mb-10"
               variants={containerVariants}
             >
               {/* CV Download Button */}
               <motion.a
                 href={myCV}
                 download="Tharushi_Paranagama_CV.pdf"
-                className="group relative bg-gradient-to-r from-emerald-500 to-cyan-500 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-3 shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/40"
+                className="group relative bg-gradient-to-r from-emerald-500 to-cyan-500 text-white px-5 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3 shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/40"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-xl blur opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
-                <FiDownload className="text-lg relative z-10" />
-                <span className="relative z-10">Download CV</span>
+                <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-cyan-500 rounded-lg sm:rounded-xl blur opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+                <FiDownload className="text-base sm:text-lg relative z-10" />
+                <span className="relative z-10 text-sm sm:text-base">Download CV</span>
               </motion.a>
 
               {/* Get In Touch Button */}
               <motion.a
                 href="#contact"
-                className="group relative bg-gradient-to-r from-gray-800 to-gray-900 text-emerald-300 px-8 py-4 rounded-xl font-semibold transition-all duration-300 border border-emerald-500/30 hover:border-emerald-400/50 flex items-center justify-center gap-3"
+                className="group relative bg-gradient-to-r from-gray-800 to-gray-900 text-emerald-300 px-5 sm:px-6 lg:px-8 py-3 sm:py-4 rounded-lg sm:rounded-xl font-semibold transition-all duration-300 border border-emerald-500/30 hover:border-emerald-400/50 flex items-center justify-center gap-2 sm:gap-3"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span>Get In Touch</span>
+                <span className="text-sm sm:text-base">Get In Touch</span>
                 <motion.span
                   animate={{ x: [0, 5, 0] }}
                   transition={{
@@ -302,14 +302,14 @@ const Hero = () => {
                     ease: "easeInOut"
                   }}
                 >
-                  <FiChevronRight className="text-xl" />
+                  <FiChevronRight className="text-lg sm:text-xl" />
                 </motion.span>
               </motion.a>
             </motion.div>
 
             {/* Social Links */}
             <motion.div 
-              className="flex gap-4"
+              className="flex gap-3 sm:gap-4"
               variants={containerVariants}
             >
               {[
@@ -340,7 +340,7 @@ const Hero = () => {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`relative group p-4 rounded-xl bg-gradient-to-br ${social.color} backdrop-blur-sm border border-emerald-500/20 transition-all duration-300 overflow-hidden`}
+                  className={`relative group p-3 sm:p-4 rounded-lg sm:rounded-xl bg-gradient-to-br ${social.color} backdrop-blur-sm border border-emerald-500/20 transition-all duration-300 overflow-hidden`}
                   aria-label={social.label}
                   custom={index}
                   variants={socialIconVariants}
@@ -352,11 +352,11 @@ const Hero = () => {
                   
                   {/* Icon */}
                   <div className="relative z-10">
-                    <social.icon className={`text-xl ${social.iconColor} group-hover:text-white transition-colors`} />
+                    <social.icon className={`text-lg sm:text-xl ${social.iconColor} group-hover:text-white transition-colors`} />
                   </div>
                   
-                  {/* Tooltip */}
-                  <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {/* Tooltip - Hidden on mobile, visible on hover */}
+                  <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 hidden sm:block">
                     <div className="bg-gray-900 text-white text-xs py-1 px-2 rounded whitespace-nowrap">
                       {social.label}
                     </div>
@@ -366,15 +366,15 @@ const Hero = () => {
             </motion.div>
           </motion.div>
 
-          {/* Profile Image - Right Side */}
+          {/* Profile Image - Right Side on desktop, top on mobile */}
           <motion.div 
-            className="lg:col-span-5"
+            className="lg:col-span-5 order-1 lg:order-2 mb-6 sm:mb-8 lg:mb-0"
             variants={slideInRight}
           >
             <div className="flex justify-center lg:justify-end">
-              {/* Larger Image Container */}
+              {/* Responsive Image Container */}
               <motion.div
-                className="relative w-[360px] h-[460px] md:w-[400px] md:h-[500px] lg:w-[420px] lg:h-[520px] rounded-xl overflow-hidden"
+                className="relative w-[280px] h-[360px] sm:w-[320px] sm:h-[400px] md:w-[360px] md:h-[460px] lg:w-[380px] lg:h-[480px] xl:w-[420px] xl:h-[520px] rounded-lg sm:rounded-xl overflow-hidden"
                 variants={{
                   hidden: { opacity: 0, scale: 0.9 },
                   visible: { opacity: 1, scale: 1 }
