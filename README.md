@@ -3,9 +3,9 @@
 
 ---
 
-## 🌐 My Portfolio
+##  My Portfolio
 
-🚀 Live Preview: **[https://tharushi-paranagama.netlify.app/](https://tharushi-paranagama.netlify.app/)**
+ Live Preview: **[https://tharushi-paranagama.netlify.app/](https://tharushi-paranagama.netlify.app/)**
 
 This is my personal portfolio website where I showcase my:
 
@@ -16,7 +16,7 @@ This is my personal portfolio website where I showcase my:
 
 ---
 
-## ✨ Features
+##  Features
 
 * Clean, modern, and responsive UI
 * Built with **React.js**
@@ -37,13 +37,13 @@ This is my personal portfolio website where I showcase my:
 
 ---
 
-## 📸 Preview
+##  Preview
 
 ![My Portfolio](./images/Me.png)
 
 ---
 
-## 🚀 How to Run Locally
+##  How to Run Locally
 
 ```bash
 git clone https://github.com/Tharushi111/My-Portfolio.git
@@ -56,7 +56,7 @@ Your project will run at: **[http://localhost:3000](http://localhost:3000)**
 
 ---
 
-## 🎯 Purpose
+##  Purpose
 
 This portfolio was created to:
 
@@ -67,7 +67,7 @@ This portfolio was created to:
 
 ---
 
-## 🤝 Connect With Me
+##  Connect With Me
 
 * LinkedIn: www.linkedin.com/in/tharushi-paranagama-a0b657355
 * Email: tharushiparanagama1@gmail.com
@@ -75,4 +75,4 @@ This portfolio was created to:
 
 ---
 
-⭐ **If you like my work, please give this repo a star!**
+ **If you like my work, please give this repo a star!**
