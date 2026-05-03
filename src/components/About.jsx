@@ -182,8 +182,8 @@ const About = () => {
   ];
 
   const achievements = [
-    { number: '5+', label: 'Projects Completed', icon: FiCode, desc: 'Web Applications', count: countedProjects },
-    { number: '7+', label: 'Technologies', icon: FiTrendingUp, desc: 'Mastered', count: countedTechnologies },
+    { number: '10+', label: 'Projects Completed', icon: FiCode, desc: 'Web Applications', count: countedProjects },
+    { number: '10+', label: 'Technologies', icon: FiTrendingUp, desc: 'Mastered', count: countedTechnologies },
     { number: '3rd', label: 'Year Student', icon: FaUserGraduate, desc: 'SLIIT', count: null },
     { number: 'BSc', label: 'IT Degree', icon: FiAward, desc: 'Information Technology', count: null }
   ];
